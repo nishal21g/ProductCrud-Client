@@ -108,7 +108,7 @@ export default function Home() {
                   endIcon={<ShoppingCartIcon />}
                   onClick={() => navigate('/browse')}
                 >
-                  Shop Now
+                  Shop
                 </Button>
                 <Button
                   variant="outlined"
