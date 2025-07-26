@@ -15,7 +15,6 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  Tooltip,
   Badge,
   Chip,
   Fade,
@@ -34,12 +33,13 @@ import {
   Logout,
   Login,
   ShoppingCart,
-  Notifications,
   Close,
 } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
+
 
 // Scroll-triggered app bar elevation
 function ElevationScroll(props) {
@@ -54,7 +54,7 @@ function ElevationScroll(props) {
   });
 }
 
-export default function Navbar({ user, setUser, token }) {
+export default function Navbar({ user, setUser, token, darkMode, setDarkMode }) {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -103,29 +103,31 @@ export default function Navbar({ user, setUser, token }) {
   return (
     <>
       <ElevationScroll>
-        <AppBar 
-          position="sticky" 
+        <AppBar
+          position="sticky"
           sx={{
-            background: `linear-gradient(135deg, 
-              ${theme.palette.primary.main} 0%, 
-              ${theme.palette.primary.dark} 100%)`,
+            background: theme.palette.mode === 'dark'
+              ? 'linear-gradient(135deg, #121212 0%, #1c1c1c 100%)'  // dark gradient
+             : 'linear-gradient(135deg, #2196f3 0%, #1e88e5 100%)', // light/orange gradient
             backdropFilter: 'blur(10px)',
             borderBottom: `1px solid ${alpha(theme.palette.common.white, 0.1)}`,
             transition: 'all 0.3s ease-in-out',
           }}
         >
-          <Toolbar 
-            sx={{ 
-              display: 'flex', 
+
+
+          <Toolbar
+            sx={{
+              display: 'flex',
               justifyContent: 'space-between',
               minHeight: { xs: 64, sm: 70 },
               px: { xs: 2, sm: 3 },
             }}
           >
             {/* Left: Enhanced Logo */}
-            <Box 
-              sx={{ 
-                display: 'flex', 
+            <Box
+              sx={{
+                display: 'flex',
                 alignItems: 'center',
                 cursor: 'pointer',
                 transition: 'transform 0.3s ease',
@@ -152,11 +154,11 @@ export default function Navbar({ user, setUser, token }) {
               >
                 <ShoppingCart sx={{ color: 'white', fontSize: 24 }} />
               </Box>
-              
+
               <Box>
-                <Typography 
-                  variant="h5" 
-                  sx={{ 
+                <Typography
+                  variant="h5"
+                  sx={{
                     fontWeight: 800,
                     background: `linear-gradient(45deg, 
                       ${theme.palette.common.white}, 
@@ -169,9 +171,9 @@ export default function Navbar({ user, setUser, token }) {
                 >
                   MiniMart
                 </Typography>
-                <Typography 
-                  variant="caption" 
-                  sx={{ 
+                <Typography
+                  variant="caption"
+                  sx={{
                     color: alpha(theme.palette.common.white, 0.7),
                     fontSize: '0.7rem',
                     fontWeight: 500,
@@ -189,29 +191,22 @@ export default function Navbar({ user, setUser, token }) {
               <>
                 {user && (
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mr: 1 }}>
-                    <Tooltip title="Notifications">
-                      <IconButton color="inherit" size="small">
-                        <Badge badgeContent={3} color="error">
-                          <Notifications />
-                        </Badge>
-                      </IconButton>
-                    </Tooltip>
-                    
+
                     <Avatar
-                      sx={{ 
-                        width: 32, 
+                      sx={{
+                        width: 32,
                         height: 32,
                         border: `2px solid ${alpha(theme.palette.common.white, 0.3)}`,
                       }}
-                      src={user.profile ? `http://localhost:7000/uploads/product/${user.profile}` : undefined}
+                      src={user.profile ? `https://productcrud-server-ex42.onrender.com/uploads/product/${user.profile}` : undefined}
                     >
                       {user.name?.[0]?.toUpperCase()}
                     </Avatar>
                   </Box>
                 )}
-                
-                <IconButton 
-                  color="inherit" 
+
+                <IconButton
+                  color="inherit"
                   onClick={() => setDrawerOpen(true)}
                   sx={{
                     transition: 'transform 0.3s ease',
@@ -224,9 +219,9 @@ export default function Navbar({ user, setUser, token }) {
                 </IconButton>
 
                 {/* Enhanced Mobile Drawer */}
-                <Drawer 
-                  anchor="right" 
-                  open={drawerOpen} 
+                <Drawer
+                  anchor="right"
+                  open={drawerOpen}
                   onClose={() => setDrawerOpen(false)}
                   PaperProps={{
                     sx: {
@@ -240,9 +235,9 @@ export default function Navbar({ user, setUser, token }) {
                 >
                   <Box sx={{ width: 280 }} role="presentation">
                     {/* Drawer Header */}
-                    <Box 
-                      sx={{ 
-                        p: 3, 
+                    <Box
+                      sx={{
+                        p: 3,
                         background: `linear-gradient(135deg, 
                           ${theme.palette.primary.main}, 
                           ${theme.palette.primary.dark})`,
@@ -258,9 +253,9 @@ export default function Navbar({ user, setUser, token }) {
                           MiniMart
                         </Typography>
                       </Box>
-                      
-                      <IconButton 
-                        color="inherit" 
+
+                      <IconButton
+                        color="inherit"
                         onClick={() => setDrawerOpen(false)}
                         size="small"
                       >
@@ -273,13 +268,13 @@ export default function Navbar({ user, setUser, token }) {
                       <Box sx={{ p: 3, borderBottom: `1px solid ${theme.palette.divider}` }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                           <Avatar
-                            sx={{ 
-                              width: 50, 
-                              height: 50, 
+                            sx={{
+                              width: 50,
+                              height: 50,
                               mr: 2,
                               border: `2px solid ${theme.palette.primary.main}`,
                             }}
-                            src={user.profile ? `http://localhost:7000/uploads/product/${user.profile}` : undefined}
+                            src={user.profile ? `https://productcrud-server-ex42.onrender.com/uploads/product/${user.profile}` : undefined}
                           >
                             {user.name?.[0]?.toUpperCase()}
                           </Avatar>
@@ -287,11 +282,11 @@ export default function Navbar({ user, setUser, token }) {
                             <Typography variant="h6" fontWeight="600">
                               {user.name}
                             </Typography>
-                            <Chip 
-                              label="Active User" 
-                              size="small" 
-                              color="success" 
-                              variant="outlined" 
+                            <Chip
+                              label="Active User"
+                              size="small"
+                              color="success"
+                              variant="outlined"
                             />
                           </Box>
                         </Box>
@@ -301,10 +296,10 @@ export default function Navbar({ user, setUser, token }) {
                     {/* Navigation Links */}
                     <List sx={{ pt: 2 }}>
                       {navLinks.map((link) => (
-                        <ListItem 
+                        <ListItem
                           key={link.label}
-                          component={Link} 
-                          to={link.to} 
+                          component={Link}
+                          to={link.to}
                           onClick={() => setDrawerOpen(false)}
                           sx={{
                             borderRadius: '8px',
@@ -324,8 +319,8 @@ export default function Navbar({ user, setUser, token }) {
                           <ListItemIcon sx={{ minWidth: 40, color: 'inherit' }}>
                             {link.icon}
                           </ListItemIcon>
-                          <ListItemText 
-                            primary={link.label} 
+                          <ListItemText
+                            primary={link.label}
                             primaryTypographyProps={{ fontWeight: 500 }}
                           />
                         </ListItem>
@@ -333,7 +328,7 @@ export default function Navbar({ user, setUser, token }) {
 
                       {user ? (
                         <>
-                          <ListItem 
+                          <ListItem
                             onClick={() => { setDrawerOpen(false); navigate("/profile"); }}
                             sx={{
                               borderRadius: '8px',
@@ -351,8 +346,8 @@ export default function Navbar({ user, setUser, token }) {
                             </ListItemIcon>
                             <ListItemText primary="Profile" primaryTypographyProps={{ fontWeight: 500 }} />
                           </ListItem>
-                          
-                          <ListItem 
+
+                          <ListItem
                             onClick={handleLogout}
                             sx={{
                               borderRadius: '8px',
@@ -373,9 +368,9 @@ export default function Navbar({ user, setUser, token }) {
                           </ListItem>
                         </>
                       ) : (
-                        <ListItem 
-                          component={Link} 
-                          to="/login" 
+                        <ListItem
+                          component={Link}
+                          to="/login"
                           onClick={() => setDrawerOpen(false)}
                           sx={{
                             borderRadius: '8px',
@@ -395,6 +390,28 @@ export default function Navbar({ user, setUser, token }) {
                         </ListItem>
                       )}
                     </List>
+                    {/* Dark Mode Toggle */}
+                    <Box sx={{ px: 2, pt: 2 }}>
+                      <Button
+                        fullWidth
+                        onClick={() => setDarkMode((prev) => !prev)}
+                        startIcon={darkMode ? <Brightness7 /> : <Brightness4 />}
+                        variant="outlined"
+                        sx={{
+                          borderRadius: '12px',
+                          fontWeight: 600,
+                          textTransform: 'none',
+                          borderColor: alpha(theme.palette.text.primary, 0.3),
+                          color: theme.palette.text.primary,
+                          '&:hover': {
+                            backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                          },
+                        }}
+                      >
+                        {darkMode ? 'Light Mode' : 'Dark Mode'}
+                      </Button>
+                    </Box>
+
                   </Box>
                 </Drawer>
               </>
@@ -444,17 +461,29 @@ export default function Navbar({ user, setUser, token }) {
                     {link.label}
                   </Button>
                 ))}
+                <Button
+                  onClick={() => setDarkMode((prev) => !prev)}
+                  color="inherit"
+                  startIcon={darkMode ? <Brightness7 /> : <Brightness4 />}
+                  sx={{
+                    borderRadius: '8px',
+                    fontWeight: 500,
+                    textTransform: 'none',
+                    ml: 2,
+                    transition: 'all 0.3s ease',
+                    border: '1px solid',
+                    borderColor: (theme) => theme.palette.divider,
+                    '&:hover': {
+                      backgroundColor: (theme) =>
+                        darkMode ? theme.palette.grey[800] : theme.palette.grey[200],
+                    },
+                  }}
+                >
+                  {darkMode ? 'Light Mode' : 'Dark Mode'}
+                </Button>
 
                 {user ? (
                   <>
-                    {/* Notifications */}
-                    <Tooltip title="Notifications">
-                      <IconButton color="inherit" sx={{ ml: 1 }}>
-                        <Badge badgeContent={3} color="error">
-                          <Notifications />
-                        </Badge>
-                      </IconButton>
-                    </Tooltip>
 
                     {/* User Menu */}
                     <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
@@ -464,7 +493,7 @@ export default function Navbar({ user, setUser, token }) {
                           onClick={handleMenuOpen}
                           avatar={
                             <Avatar
-                              src={user.profile ? `http://localhost:7000/uploads/product/${user.profile}` : undefined}
+                              src={user.profile ? `https://productcrud-server-ex42.onrender.com/uploads/product/${user.profile}` : undefined}
                               sx={{ width: 28, height: 28 }}
                             >
                               {user.name?.[0]?.toUpperCase()}
@@ -483,10 +512,10 @@ export default function Navbar({ user, setUser, token }) {
                           }}
                         />
                       </Fade>
-                      
-                      <Menu 
-                        anchorEl={anchorEl} 
-                        open={Boolean(anchorEl)} 
+
+                      <Menu
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
                         onClose={handleMenuClose}
                         PaperProps={{
                           sx: {
@@ -500,7 +529,7 @@ export default function Navbar({ user, setUser, token }) {
                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                       >
-                        <MenuItem 
+                        <MenuItem
                           onClick={() => { handleMenuClose(); navigate("/profile"); }}
                           sx={{
                             py: 1.5,
@@ -514,7 +543,7 @@ export default function Navbar({ user, setUser, token }) {
                           <Person sx={{ mr: 2, color: 'text.secondary' }} />
                           Profile
                         </MenuItem>
-                        <MenuItem 
+                        <MenuItem
                           onClick={handleLogout}
                           sx={{
                             py: 1.5,

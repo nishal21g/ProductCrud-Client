@@ -28,7 +28,7 @@ export default function BrowseProducts({ token }) {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:7000/product/view-others-product", {
+      .get("https://productcrud-server-ex42.onrender.com/product/view-others-product", {
         headers: { "auth-token": token },
       })
       .then((res) => {
@@ -279,7 +279,7 @@ export default function BrowseProducts({ token }) {
                             <Box
                               component="img"
                               className="product-image"
-                              src={`http://localhost:7000/uploads/product/${product?.picture}`}
+                              src={`https://productcrud-server-ex42.onrender.com/uploads/product/${product?.picture}`}
                               alt={product.name}
                               sx={{
                                 width: "100%",

@@ -21,7 +21,7 @@ export default function ProductDetails({ token }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:7000/product/view-product-details/${id}`, {
+      .get(`https://productcrud-server-ex42.onrender.com/product/view-product-details/${id}`, {
         headers: {
           'auth-token': token,
         },
@@ -44,7 +44,7 @@ export default function ProductDetails({ token }) {
   useEffect(() => {
     if (product?.category) {
       axios
-        .get(`http://localhost:7000/product/similar/${product.category}?excludeId=${product._id}`, {
+        .get(`https://productcrud-server-ex42.onrender.com/product/similar/${product.category}?excludeId=${product._id}`, {
           headers: { 'auth-token': token },
         })
         .then((res) => {
@@ -100,7 +100,7 @@ export default function ProductDetails({ token }) {
           <Grid item xs={12} md={6}>
             <Box
               component="img"
-              src={`http://localhost:7000/uploads/product/${product.picture}`}
+              src={`https://productcrud-server-ex42.onrender.com/uploads/product/${product.picture}`}
               alt={product.name}
               sx={{
                 width: '100%',
@@ -148,7 +148,7 @@ export default function ProductDetails({ token }) {
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar
                   alt={product?.userId?.name}
-                  src={`http://localhost:7000/uploads/product/${product?.userId?.profile}`}
+                  src={`https://productcrud-server-ex42.onrender.com/uploads/product/${product?.userId?.profile}`}
                   sx={{ width: 50, height: 50, mr: 2 }}
                 />
                 <Box>
@@ -216,7 +216,7 @@ export default function ProductDetails({ token }) {
                     >
                       <Box
                         component="img"
-                        src={`http://localhost:7000/uploads/product/${item.picture}`}
+                        src={`https://productcrud-server-ex42.onrender.com/uploads/product/${item.picture}`}
                         alt={item.name}
                         sx={{ width: '100%', height: 150, objectFit: 'contain' }}
                       />

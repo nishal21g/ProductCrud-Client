@@ -51,7 +51,7 @@ export default function Profile({ user, token, setUser }) {
             }));
 
             if (user.profile) {
-                setPreviewImage(`http://localhost:7000/uploads/product/${user.profile}`);
+                setPreviewImage(`https://productcrud-server-ex42.onrender.com/uploads/product/${user.profile}`);
             } else {
                 setPreviewImage(null);
             }
@@ -90,7 +90,7 @@ export default function Profile({ user, token, setUser }) {
 
         try {
             const res = await axios.put(
-                "http://localhost:7000/user/updateprofile",
+                "https://productcrud-server-ex42.onrender.com/user/updateprofile",
                 userData,
                 { headers: { "auth-token": token } }
             );
