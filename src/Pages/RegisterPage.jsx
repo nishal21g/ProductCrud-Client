@@ -63,7 +63,7 @@ const RegisterPage = () => {
     userData.append("password", formData.password);
     userData.append("profile", formData.profile);
 
-    axios.post('http://localhost:7000/user/register', userData)
+    axios.post('https://productcrud-server-ex42.onrender.com/user/register', userData)
       .then((res) => {
         if (res.data.success) {
           toast.success(res.data.message);

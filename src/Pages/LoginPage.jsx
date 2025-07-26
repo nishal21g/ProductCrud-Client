@@ -9,9 +9,9 @@ const LoginPage = ( { setUser }) => {
 const [forminfo, setForminfo] = useState({  email:"", password:""})
 const handleSubmit = (e) => {
   e.preventDefault();
-  axios.post("http://localhost:7000/user/login" , forminfo)
+  axios.post("https://productcrud-server-ex42.onrender.com/user/login" , forminfo)
   .then((res) => {
-    if(res.data.message) {
+    if(res.data.success) {
      toast.success(res.data.message);
     setUser(res.data.user)
     localStorage.setItem("authToken", res.data.token);

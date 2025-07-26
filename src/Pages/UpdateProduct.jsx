@@ -32,7 +32,7 @@ export default function UpdateProduct({token}) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:7000/product/view/${id}`,{headers:{"auth-token" : token}})
+      .get(`https://productcrud-server-ex42.onrender.com/product/view/${id}`,{headers:{"auth-token" : token}})
       .then((res) => {
         if (res.data.success) {
           setProduct(res.data.product);
@@ -80,7 +80,7 @@ export default function UpdateProduct({token}) {
     productData.append("picture", product?.picture);
    }
     axios
-      .put(`http://localhost:7000/product/update/${id}`, productData,{headers:{"auth-token" : token}})
+      .put(`https://productcrud-server-ex42.onrender.com/product/update/${id}`, productData,{headers:{"auth-token" : token}})
       .then((res) => {
         if (res.data.success) {
            toast.success(res.data.message);

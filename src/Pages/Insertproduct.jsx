@@ -196,7 +196,7 @@ export default function InsertProduct({ setProducts, token }) {
     data.append('description', form.description);
     
     try {
-      const res = await axios.post('http://localhost:7000/product/insert', data, {
+      const res = await axios.post('https://productcrud-server-ex42.onrender.com/product/insert', data, {
         headers: { "auth-token": token }
       });
       
